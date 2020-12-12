@@ -14,30 +14,40 @@ with open("C:\\Users\\Judith\\Documents\\AdventForCode\\day12_input.txt", "r") a
 # [N,E,S, W] = [0,1,2,3]
 
 class ship():
-    def __init__(location, direction):
-        ship.n, ship.e, ship.s, ship.w = location
-        ship.location = (ship.n, ship.e, ship.s, ship.w)
-        ship.direction = direction
+    def __init__(self, location, direction):
+        self.v, self.h = location
+        self.location = [self.v, self.h]
+        self.direction = direction
     
-    def move(action, value):
+    def move(self, action, value):
         if action == "N":
-            ship.n += value
+            self.v += value
         elif action == "E":
-            ship.e += value
+            self.h += value
         elif action == "S":
-            ship.s += value
+            self.v -= value
         elif action == "W":
-            ship.w += value
+            self.h -= value
         elif action == "L":
-            ship.direction = (ship.direction - (value / 90)) % 4
+            self.direction = (self.direction - int(value / 90)) % 4
         elif action == "R":
-            ship.direction = (ship.direction + (value / 90)) % 4
+            self.direction = (self.direction + int(value / 90)) % 4
         elif action == "F":
-            ship.location[ship.direction] += value
+            if value in [0,1]:
+                self.location[self.direction] += value
+            else:
+                self.location[self.direction % 2] -= value
         else:
             print("Error")
+    def locate(self, distance = True):
+        if distance:
+            return self.v + self.h
+        else:
+            return self.location
+        
             
 
-ferry = ship([0,0,0,0], 1)
+ferry = ship([0,0], 1)
 for action, value in inputlst:
     ferry.move(action, value)
+print("Ferry is here: {ferry.locate()} and moved {ferry.locate(distance = False)} units")
