@@ -16,7 +16,7 @@ with open("C:\\Users\\Judith\\Documents\\AdventForCode\\day12_input.txt", "r") a
 class ship():
     def __init__(self, location, direction):
         self.v, self.h = location
-        self.location = [self.v, self.h]
+        #self.location = [self.v, self.h]
         self.direction = direction
     
     def move(self, action, value):
@@ -33,21 +33,27 @@ class ship():
         elif action == "R":
             self.direction = (self.direction + int(value / 90)) % 4
         elif action == "F":
-            if value in [0,1]:
-                self.location[self.direction] += value
+            if self.direction == 0:
+                self.v += value
+            elif self.direction == 1:
+                self.h += value
+            elif self.direction == 2:
+                self.v -= value
+            elif self.direction == 3:
+                self.h -= value
             else:
-                self.location[self.direction % 2] -= value
+                print("Error")
         else:
             print("Error")
     def locate(self, distance = True):
         if distance:
-            return self.v + self.h
+            return abs(self.v) + abs(self.h)
         else:
-            return self.location
+            return (self.v, self.h)
         
             
 
 ferry = ship([0,0], 1)
 for action, value in inputlst:
     ferry.move(action, value)
-print("Ferry is here: {ferry.locate()} and moved {ferry.locate(distance = False)} units")
+print(f"Ferry is here: {ferry.locate()} and moved {ferry.locate(distance = False)} units")
